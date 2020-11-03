@@ -27,7 +27,7 @@ sat_dns_server=${SAT_DNS_SERVER:-$nameserver}
 
 cert_src_dir=${SAT_CERT_SRC_DIR:=/usr/share/pki/trust/anchors}
 cert_target_dir=${SAT_CERT_TARGET_DIR:-/usr/local/share/ca-certificates}
-kube_config_file=${SAT_KUBE_CONFIG_FILE:-$HOME/.kube/config}
+kube_config_file=${SAT_KUBE_CONFIG_FILE:-/etc/kubernetes/admin.conf}
 ssh_config_dir=${SAT_SSH_CONFIG_DIR:-$HOME/.ssh}
 
 podman_command_base="podman run --dns $sat_dns_server"
@@ -35,7 +35,7 @@ if [ -d $cert_src_dir ]; then
   podman_command_base="$podman_command_base --mount type=bind,src=$cert_src_dir,target=$cert_target_dir,ro=true"
 fi
 if [ -f $kube_config_file ]; then
-  podman_command_base="$podman_command_base --mount type=bind,src=$kube_config_file,target=$kube_config_file,ro=true"
+  podman_command_base="$podman_command_base --mount type=bind,src=$kube_config_file,target=$HOME/.kube/config,ro=true"
 fi
 if [ -d $ssh_config_dir ]; then
   podman_command_base="$podman_command_base --mount type=bind,src=$ssh_config_dir,target=$ssh_config_dir,ro=true"
