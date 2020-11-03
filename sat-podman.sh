@@ -22,11 +22,25 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 sat_image=${SAT_IMAGE:-registry.local/cray/cray-sat:latest}
-sat_dns_server=${SAT_DNS_SERVER:-10.6.0.10}
+nameserver=$(awk '{ if ($1 == "nameserver") { print $2; exit } }' /etc/resolv.conf )
+sat_dns_server=${SAT_DNS_SERVER:-$nameserver}
 
-podman_command_base="podman run --dns $sat_dns_server \
-  --mount type=bind,src=/usr/share/pki/trust/anchors,target=/usr/local/share/ca-certificates,ro=true \
-  -ti --rm $sat_image"
+cert_src_dir=${SAT_CERT_SRC_DIR:=/usr/share/pki/trust/anchors}
+cert_target_dir=${SAT_CERT_TARGET_DIR:-/usr/local/share/ca-certificates}
+kube_config_file=${SAT_KUBE_CONFIG_FILE:-/etc/kubernetes/admin.conf}
+ssh_config_dir=${SAT_SSH_CONFIG_DIR:-$HOME/.ssh}
+
+podman_command_base="podman run --dns $sat_dns_server"
+if [ -d $cert_src_dir ]; then
+  podman_command_base="$podman_command_base --mount type=bind,src=$cert_src_dir,target=$cert_target_dir,ro=true"
+fi
+if [ -f $kube_config_file ]; then
+  podman_command_base="$podman_command_base --mount type=bind,src=$kube_config_file,target=$HOME/.kube/config,ro=true"
+fi
+if [ -d $ssh_config_dir ]; then
+  podman_command_base="$podman_command_base --mount type=bind,src=$ssh_config_dir,target=$ssh_config_dir,ro=true"
+fi
+podman_command_base="$podman_command_base -ti --rm $sat_image"
 
 # allow running 'sat bash' to open a shell in sat container
 if [ "$1" == "bash" ]; then
