@@ -29,7 +29,7 @@ sat_image=${SAT_IMAGE:-$sat_repository:$sat_image_tag}
 nameserver=$(awk '{ if ($1 == "nameserver") { print $2; exit } }' /etc/resolv.conf )
 sat_dns_server=${SAT_DNS_SERVER:-$nameserver}
 
-cert_src_dir=${SAT_CERT_SRC_DIR:=/usr/share/pki/trust/anchors}
+cert_src_dir=${SAT_CERT_SRC_DIR:-/etc/pki/trust/anchors}
 cert_target_dir=${SAT_CERT_TARGET_DIR:-/usr/local/share/ca-certificates}
 kube_config_file=${SAT_KUBE_CONFIG_FILE:-/etc/kubernetes/admin.conf}
 ssh_config_dir=${SAT_SSH_CONFIG_DIR:-$HOME/.ssh}
