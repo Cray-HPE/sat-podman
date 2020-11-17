@@ -33,6 +33,7 @@ cert_src_dir=${SAT_CERT_SRC_DIR:-/etc/pki/trust/anchors}
 cert_target_dir=${SAT_CERT_TARGET_DIR:-/usr/local/share/ca-certificates}
 kube_config_file=${SAT_KUBE_CONFIG_FILE:-/etc/kubernetes/admin.conf}
 ssh_config_dir=${SAT_SSH_CONFIG_DIR:-$HOME/.ssh}
+sat_config_dir=${SAT_CONFIG_DIR:-$HOME/.config/sat/}
 
 podman_command_base="podman run --dns $sat_dns_server"
 if [ -d $cert_src_dir ]; then
@@ -43,6 +44,14 @@ if [ -f $kube_config_file ]; then
 fi
 if [ -d $ssh_config_dir ]; then
   podman_command_base="$podman_command_base --mount type=bind,src=$ssh_config_dir,target=$ssh_config_dir,ro=true"
+fi
+
+# If configuration directory does not exist and cannot be created, then give a warning.
+if mkdir -p $sat_config_dir; then
+  podman_command_base="$podman_command_base --mount type=bind,src=$sat_config_dir,target=$HOME/.config/sat/"
+else
+  echo "WARNING: Unable to create sat configuration directory $sat_config_dir." \
+       "No configuration file will be present." >&2
 fi
 podman_command_base="$podman_command_base -ti --rm $sat_image"
 
