@@ -20,7 +20,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 Name: cray-sat-podman
-Version: 1.0.0
+Version: %(./changelog.py ./CHANGELOG.md)
 Release: %(echo ${BUILD_METADATA})
 License: MIT
 Source: %{name}-%{version}.tar.gz
