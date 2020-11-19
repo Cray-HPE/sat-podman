@@ -21,7 +21,10 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-sat_image=${SAT_IMAGE:-registry.local/cray/cray-sat:latest}
+# Text surrounded by @ is replaced by a sed command in the spec file
+sat_repository=${SAT_REPOSITORY:-@DEFAULT_SAT_REPOSITORY@}
+sat_image_tag=${SAT_TAG:-@DEFAULT_SAT_TAG@}
+sat_image=${SAT_IMAGE:-$sat_repository:$sat_image_tag}
 
 # either `sat-man sat` or `sat-man` with no arguments should bring up sat man page
 if [ -z "$1" ] || [ "$1" == 'sat' ]; then

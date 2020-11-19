@@ -20,7 +20,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 Name: cray-sat-podman
-Version: 1.0.0
+Version: %(./changelog.py ./CHANGELOG.md)
 Release: %(echo ${BUILD_METADATA})
 License: MIT
 Source: %{name}-%{version}.tar.gz
@@ -38,6 +38,11 @@ sat-podman is a wrapper to run the SAT CLI under podman
 %setup -n %{name}-%{version}
 
 %build
+for f in sat-podman.sh sat-manpage.sh; do
+    sed -e 's,@DEFAULT_SAT_REPOSITORY@,dtr.dev.cray.com/cray/cray-sat,' \
+        -e 's,@DEFAULT_SAT_TAG@,2.4.0-20201102204822_6e44dc5,' \
+        -i $f
+done
 
 %install
 mkdir -p %{buildroot}/usr/bin/

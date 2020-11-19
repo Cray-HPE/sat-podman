@@ -21,7 +21,7 @@
 @Library("dst-shared") _
 
 rpmBuild( 
-    product: "shasta-standard,shasta-premium",
+    product: "sat",
     target_node: "ncn",
     specfile: "cray-sat-podman.spec",
     channel: "sat-ci"
