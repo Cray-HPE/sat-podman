@@ -30,6 +30,7 @@ nameserver=$(awk '{ if ($1 == "nameserver") { print $2; exit } }' /etc/resolv.co
 sat_dns_server=${SAT_DNS_SERVER:-$nameserver}
 
 cray_release_dir="/opt/cray/etc/release"
+site_info_dir="/opt/cray/etc"
 cert_src_dir=${SAT_CERT_SRC_DIR:-/etc/pki/trust/anchors}
 cert_target_dir=${SAT_CERT_TARGET_DIR:-/usr/local/share/ca-certificates}
 kube_config_file=${SAT_KUBE_CONFIG_FILE:-/etc/kubernetes/admin.conf}
@@ -38,6 +39,9 @@ sat_config_dir=${SAT_CONFIG_DIR:-$HOME/.config/sat/}
 sat_log_dir=${SAT_LOG_DIR:-/var/log/cray/sat/}
 
 podman_command_base="podman run --dns $sat_dns_server"
+if [ -d $site_info_dir ]; then
+  podman_command_base="$podman_command_base --mount type=bind,src=$site_info_dir,target=$site_info_dir"
+fi
 if [ -d $cray_release_dir ]; then
   podman_command_base="$podman_command_base --mount type=bind,src=$cray_release_dir,target=$cray_release_dir,ro=true"
 fi
