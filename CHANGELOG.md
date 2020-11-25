@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Mount ``/opt/cray/etc/release`` inside podman container.
+- Mount ``/opt/cray/etc`` inside podman container.
 
 ## [1.1.0] - 2020-11-18
 
