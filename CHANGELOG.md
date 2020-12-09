@@ -27,6 +27,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Mount ``/etc/os-release`` from host to ``/opt/cray/sat/etc/os-release`` in
+  the container.
+
 ### Changed
 - Updated default value of ``SAT_REPOSITORY`` to registry.local/cray/cray-sat
   to support air-gap installs as well as online installs.
