@@ -39,8 +39,9 @@ sat-podman is a wrapper to run the SAT CLI under podman
 
 %build
 for f in sat-podman.sh sat-manpage.sh; do
-    sed -e 's,@DEFAULT_SAT_REPOSITORY@,dtr.dev.cray.com/cray/cray-sat,' \
-        -e 's,@DEFAULT_SAT_TAG@,2.4.0-20201102204822_6e44dc5,' \
+    # Use registry.local as it will work for both air-gapped and online installs
+    sed -e 's,@DEFAULT_SAT_REPOSITORY@,registry.local/cray/cray-sat,' \
+        -e 's,@DEFAULT_SAT_TAG@,3.1.0-20201204233432_5d2650f,' \
         -i $f
 done
 

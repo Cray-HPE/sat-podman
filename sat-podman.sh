@@ -31,6 +31,8 @@ sat_dns_server=${SAT_DNS_SERVER:-$nameserver}
 
 cray_release_dir="/opt/cray/etc/release"
 site_info_dir="/opt/cray/etc"
+host_os_info_file="/etc/os-release"
+host_os_info_target_file="/opt/cray/sat/etc/os-release"
 cert_src_dir=${SAT_CERT_SRC_DIR:-/etc/pki/trust/anchors}
 cert_target_dir=${SAT_CERT_TARGET_DIR:-/usr/local/share/ca-certificates}
 kube_config_file=${SAT_KUBE_CONFIG_FILE:-/etc/kubernetes/admin.conf}
@@ -39,6 +41,10 @@ sat_config_dir=${SAT_CONFIG_DIR:-$HOME/.config/sat/}
 sat_log_dir=${SAT_LOG_DIR:-/var/log/cray/sat/}
 
 podman_command_base="podman run --dns $sat_dns_server"
+if [ -f $host_os_info_file ]; then
+  podman_command_base="$podman_command_base --mount type=bind,src=$host_os_info_file,target=$host_os_info_target_file"
+fi
+
 if [ -d $site_info_dir ]; then
   podman_command_base="$podman_command_base --mount type=bind,src=$site_info_dir,target=$site_info_dir"
 fi
