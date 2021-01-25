@@ -33,6 +33,7 @@ cray_release_dir="/opt/cray/etc/release"
 site_info_dir="/opt/cray/etc"
 host_os_info_file="/etc/os-release"
 host_os_info_target_file="/opt/cray/sat/etc/os-release"
+ceph_config_dir="/etc/ceph"
 cert_src_dir=${SAT_CERT_SRC_DIR:-/etc/pki/trust/anchors}
 cert_target_dir=${SAT_CERT_TARGET_DIR:-/usr/local/share/ca-certificates}
 kube_config_file=${SAT_KUBE_CONFIG_FILE:-/etc/kubernetes/admin.conf}
@@ -59,6 +60,9 @@ if [ -f $kube_config_file ]; then
 fi
 if [ -d $ssh_config_dir ]; then
   podman_command_base="$podman_command_base --mount type=bind,src=$ssh_config_dir,target=$ssh_config_dir,ro=true"
+fi
+if [ -d $ceph_config_dir ]; then
+  podman_command_base="$podman_command_base --mount type=bind,src=$ceph_config_dir,target=$ceph_config_dir,ro=true"
 fi
 
 # If configuration directory does not exist and cannot be created, then give a warning.
