@@ -1,5 +1,5 @@
 # Spec file for sat-podman
-# (C) Copyright 2020 Hewlett Packard Enterprise Development LP.
+# (C) Copyright 2020-2021 Hewlett Packard Enterprise Development LP.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,6 +19,8 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
+%define satmandir %{_mandir}/man8
+
 Name: cray-sat-podman
 Version: %(./changelog.py ./CHANGELOG.md)
 Release: %(echo ${BUILD_METADATA})
@@ -30,6 +32,7 @@ BuildRoot: %{_topdir}
 Vendor: Hewlett Packard Enterprise Company
 Requires: podman
 Requires: podman-cni-config
+BuildRequires: python3-docutils
 
 %description
 sat-podman is a wrapper to run the SAT CLI under podman
@@ -38,18 +41,30 @@ sat-podman is a wrapper to run the SAT CLI under podman
 %setup -n %{name}-%{version}
 
 %build
+# Replace values in sat and sat-man executables
 for f in sat-podman.sh sat-manpage.sh; do
     # Use registry.local as it will work for both air-gapped and online installs
     sed -e 's,@DEFAULT_SAT_REPOSITORY@,registry.local/cray/cray-sat,' \
         -e 's,@DEFAULT_SAT_TAG@,3.2.0-20201217230506_fab8bc2,' \
         -i $f
 done
+# Build man pages
+cd man
+make
+cd -
 
 %install
+# Install sat and sat-man executables
 mkdir -p %{buildroot}/usr/bin/
 install -m 755 sat-podman.sh %{buildroot}/usr/bin/sat
 install -m 755 sat-manpage.sh %{buildroot}/usr/bin/sat-man
+# Install man pages
+install -m 755 -d %{buildroot}%{satmandir}/
+cp man/*.8 %{buildroot}%{satmandir}/
+# Link the 'sat' man page to the 'sat-podman' man page
+ln -s sat-podman.8 %{buildroot}%{satmandir}/sat.8
 
 %files
 /usr/bin/sat
 /usr/bin/sat-man
+%{satmandir}/*.8.gz
