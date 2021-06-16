@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Wrapper script for sat CLI
 #
-# (C) Copyright 2020 Hewlett Packard Enterprise Development LP.
+# (C) Copyright 2021 Hewlett Packard Enterprise Development LP.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -46,9 +46,6 @@ if [ -f $host_os_info_file ]; then
   podman_command_base="$podman_command_base --mount type=bind,src=$host_os_info_file,target=$host_os_info_target_file"
 fi
 
-if [ -d $site_info_dir ]; then
-  podman_command_base="$podman_command_base --mount type=bind,src=$site_info_dir,target=$site_info_dir"
-fi
 if [ -d $cray_release_dir ]; then
   podman_command_base="$podman_command_base --mount type=bind,src=$cray_release_dir,target=$cray_release_dir,ro=true"
 fi
@@ -65,6 +62,12 @@ if [ -d $ceph_config_dir ]; then
   podman_command_base="$podman_command_base --mount type=bind,src=$ceph_config_dir,target=$ceph_config_dir,ro=true"
 fi
 
+# If the site information directory does not exist and cannot be created, then give a warning.
+if mkdir -p $site_info_dir; then
+  podman_command_base="$podman_command_base --mount type=bind,src=$site_info_dir,target=$site_info_dir"
+else
+  echo "WARNING: Unable to create sat site information directory $site_info_dir." >&2
+fi
 # If configuration directory does not exist and cannot be created, then give a warning.
 if mkdir -p $sat_config_dir; then
   podman_command_base="$podman_command_base --mount type=bind,src=$sat_config_dir,target=$HOME/.config/sat/"
@@ -72,7 +75,6 @@ else
   echo "WARNING: Unable to create sat configuration directory $sat_config_dir." \
        "No configuration file will be present." >&2
 fi
-
 # If log directory does not exist and cannot be created, then give a warning.
 if mkdir -p $sat_log_dir; then
   podman_command_base="$podman_command_base --mount type=bind,src=$sat_log_dir,target=$sat_log_dir"
