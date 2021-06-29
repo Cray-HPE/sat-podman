@@ -31,6 +31,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed issues with redirecting stdout and stderr, and piping output to
   commands, such as, awk, less, and more.
 
+### Added
+- Mount the user's working and home directories on the host to the same
+  directories in the container. Set the working directory when the
+  container is started to the user's working directory.
+
 ## [1.4.7] - 2021-06-23
 
 ### Changed

@@ -43,6 +43,14 @@ sat_log_dir=${SAT_LOG_DIR:-/var/log/cray/sat/}
 
 podman_cli_args="--dns $sat_dns_server"
 
+working_dir=$(pwd -P)
+if [ -d $working_dir ]; then
+  podman_cli_args="$podman_cli_args --mount type=bind,src=$working_dir,target=$working_dir -w $working_dir"
+fi
+if [ -d $HOME ] && [ "$working_dir" != "$HOME" ]; then
+  podman_cli_args="$podman_cli_args --mount type=bind,src=$HOME,target=$HOME"
+fi
+
 if [ -f $host_os_info_file ]; then
   podman_cli_args="$podman_cli_args --mount type=bind,src=$host_os_info_file,target=$host_os_info_target_file"
 fi
