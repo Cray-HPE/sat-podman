@@ -40,7 +40,8 @@ is created. The following environment variables are available:
 
 SAT_CONFIG_DIR
         Environment variable for the directory containing the
-        SAT configuration file.  The default is $HOME/.config/sat.
+        SAT configuration file and authentication tokens.
+        The default is $HOME/.config/sat.
         The directory is mounted in the container as $HOME/.config/sat.
 
 SAT_LOG_DIR
