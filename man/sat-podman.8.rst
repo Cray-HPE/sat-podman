@@ -32,6 +32,23 @@ OPTIONS
 For a full list of 'sat' options and arguments, access the main SAT man page
 by running 'sat-man sat'. See sat\-man(8).
 
+ENVIRONMENT
+===========
+
+Environment variables can be set to override defaults used when the container
+is created. The following environment variables are available:
+
+SAT_CONFIG_DIR
+        Environment variable for the directory containing the
+        SAT configuration file.  The default is $HOME/.config/sat.
+        The directory is mounted in the container as $HOME/.config/sat.
+
+SAT_LOG_DIR
+        Environment variable for the directory containing the SAT log file.
+        The default is /var/log/cray/sat.
+        The directory is mounted in the container in the same location
+        defined by SAT_LOG_DIR defaulting to /var/log/cray/sat.
+
 EXAMPLES
 ========
 
