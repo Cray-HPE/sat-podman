@@ -32,6 +32,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   commands, such as, awk, less, and more.
 
 ### Added
+- Mount the user's working and home directories on the host to the same
+  directories in the container. Set the working directory when the
+  container is started to the user's working directory.
 - Added documentation to the man page on environment variables available
   in ``sat-podman``.
 

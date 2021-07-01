@@ -37,11 +37,18 @@ ceph_config_dir="/etc/ceph"
 cert_src_dir=${SAT_CERT_SRC_DIR:-/etc/pki/trust/anchors}
 cert_target_dir=${SAT_CERT_TARGET_DIR:-/usr/local/share/ca-certificates}
 kube_config_file=${SAT_KUBE_CONFIG_FILE:-/etc/kubernetes/admin.conf}
-ssh_config_dir=${SAT_SSH_CONFIG_DIR:-$HOME/.ssh}
 sat_config_dir=${SAT_CONFIG_DIR:-$HOME/.config/sat/}
 sat_log_dir=${SAT_LOG_DIR:-/var/log/cray/sat/}
 
 podman_cli_args="--dns $sat_dns_server"
+
+working_dir=$(pwd -P)
+if [ -d "$working_dir" ]; then
+  podman_cli_args="$podman_cli_args --mount type=bind,src=$working_dir,target=$working_dir --workdir $working_dir"
+fi
+if [ -d "$HOME" ] && [ "$working_dir" != "$HOME" ]; then
+  podman_cli_args="$podman_cli_args --mount type=bind,src=$HOME,target=$HOME"
+fi
 
 if [ -f $host_os_info_file ]; then
   podman_cli_args="$podman_cli_args --mount type=bind,src=$host_os_info_file,target=$host_os_info_target_file"
@@ -55,9 +62,6 @@ if [ -d $cert_src_dir ]; then
 fi
 if [ -f $kube_config_file ]; then
   podman_cli_args="$podman_cli_args --mount type=bind,src=$kube_config_file,target=$HOME/.kube/config,ro=true"
-fi
-if [ -d $ssh_config_dir ]; then
-  podman_cli_args="$podman_cli_args --mount type=bind,src=$ssh_config_dir,target=$ssh_config_dir,ro=true"
 fi
 if [ -d $ceph_config_dir ]; then
   podman_cli_args="$podman_cli_args --mount type=bind,src=$ceph_config_dir,target=$ceph_config_dir,ro=true"
