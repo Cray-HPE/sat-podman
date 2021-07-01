@@ -62,20 +62,70 @@ FILES
 
 The 'sat' subcommands run in a container environment.  When the container is
 started, it automatically mounts the following host directories in the
-container in the same location. As a result, the files that are located in
-these host directories and subdirectories are available to the subcommands
-that run in the container. Any files that are created by the 'sat'
-subcommands in these directories will persist on the host after the
-container exits.
-
-The working directory inside the container is set to the current working
-directory.
+container in the same location:
 
 $HOME
         The home directory on the host.
 
 $PWD
         The current working directory on the host.
+
+As a result, the files and directories that are located in $HOME and $PWD
+are available to the subcommands that run in the container.
+Any files that are created by the 'sat' subcommands in these directories
+will persist on the host after the container exits.
+The working directory inside the container is set to
+the current working directory.
+
+In addition, the following host files and directories are mounted in the container
+for use by the 'sat' subcommands:
+
+$HOME/.config/sat
+        The directory containing the SAT configuration file and authentication tokens.
+        The directory is created if it does not exist.
+        The directory is mounted in the container as $HOME/.config/sat
+        in read-write mode.
+        The location of the directory on the host can be changed using the
+        environment variable SAT_CONFIG_DIR.
+
+/etc/ceph
+        The directory containing ceph configuration data.
+        The directory is mounted in the container as /etc/ceph
+        in read-only mode.
+
+/etc/kubernetes/admin.conf
+        The file containing kubernetes configuration data.
+        The file is mounted in the container as $HOME/.kube/config
+        in read-only mode.
+
+/etc/os-release
+        The file containing Operating System release information.
+        The file is mounted in the container as /opt/cray/sat/etc/os-release
+        in read-write mode.
+
+/etc/pki/trust/anchors
+        The directory containing CA certificates.
+        The directory is mounted in the container as /usr/local/share/ca-certificates
+        in read-only mode.
+
+/opt/cray/etc
+        The directory containing site information.
+        The directory is created if it does not exist.
+        The directory is  mounted in the container as /opt/cray/etc
+        in read-write mode.
+
+/opt/cray/etc/release
+        The directory containing product version files.
+        The directory is mounted in the container as /opt/cray/etc/release
+        in read-only mode.
+
+/var/log/cray/sat
+        The directory containing the SAT log file.
+        The directory is created if it does not exist.
+        The directory is mounted in the container as /var/log/cray/sat
+        in read-write mode.
+        The location of the directory on the host and in the container
+        can be changed using the environment variable SAT_LOG_DIR.
 
 EXAMPLES
 ========
