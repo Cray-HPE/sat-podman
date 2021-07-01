@@ -31,6 +31,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed issues with redirecting stdout and stderr, and piping output to
   commands, such as, awk, less, and more.
 
+### Added
+- Added documentation to the man page on environment variables available
+  in ``sat-podman``.
+
 ## [1.4.7] - 2021-06-23
 
 ### Changed
