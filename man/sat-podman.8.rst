@@ -20,7 +20,7 @@ SYNOPSIS
 DESCRIPTION
 ===========
 
-All 'sat' subcommands run a process in a container.  The container can
+All 'sat' subcommands run a process in a container. The container can
 be used to execute multiple 'sat' subcommands in a container environment
 or a single 'sat' subcommand using a temporary container depending on
 how the SAT command is run.
@@ -60,7 +60,7 @@ SAT_LOG_DIR
 FILES
 =====
 
-The 'sat' subcommands run in a container environment.  When the container is
+The 'sat' subcommands run in a container environment. When the container is
 started, it automatically mounts the following host directories in the
 container in the same location:
 
@@ -71,11 +71,10 @@ $PWD
         The current working directory on the host.
 
 As a result, the files and directories that are located in $HOME and $PWD
-are available to the subcommands that run in the container.
-Any files that are created by the 'sat' subcommands in these directories
-will persist on the host after the container exits.
-The working directory inside the container is set to
-the current working directory.
+are available to the subcommands that run in the container. Any files that
+are created by the 'sat' subcommands in these directories will persist on
+the host after the container exits. The working directory inside the container
+is set to the current working directory.
 
 In addition, the following host files and directories are mounted in the container
 for use by the 'sat' subcommands:
@@ -109,9 +108,10 @@ $HOME/.config/sat
         in read-only mode.
 
 /opt/cray/etc
-        The directory containing site information.
+        The directory containing site information which is a local cache of the
+        site information downloaded from the configured S3 bucket.
         The directory is created if it does not exist.
-        The directory is  mounted in the container as /opt/cray/etc
+        The directory is mounted in the container as /opt/cray/etc
         in read-write mode.
 
 /opt/cray/etc/release
