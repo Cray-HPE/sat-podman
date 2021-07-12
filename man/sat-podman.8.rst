@@ -51,6 +51,11 @@ SAT_CONFIG_DIR
         The default is $HOME/.config/sat.
         The directory is mounted in the container as $HOME/.config/sat.
 
+SAT_KUBE_CONFIG_FILE
+        Environment variable for the Kubernetes configuration file.
+        The default is /etc/kubernetes/admin.conf.
+        The directory is mounted in the container as $HOME/.kube/config.
+
 SAT_LOG_DIR
         Environment variable for the directory containing the SAT log file.
         The default is /var/log/cray/sat.
@@ -96,6 +101,8 @@ $HOME/.config/sat
         The file containing kubernetes configuration data.
         The file is mounted in the container as $HOME/.kube/config
         in read-only mode.
+        The location of the file on the host can be changed using the
+        environment variable SAT_KUBE_CONFIG_FILE.
 
 /etc/os-release
         The file containing Operating System release information.
