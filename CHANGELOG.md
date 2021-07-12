@@ -37,6 +37,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   container is started to the user's working directory.
 - Added documentation to the man page on environment variables available
   in ``sat-podman``.
+- Added documentation to the man page on host files and directories mounted
+  in the container.
 
 ## [1.4.7] - 2021-06-23
 
