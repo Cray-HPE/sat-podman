@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Wrapper script for sat man pages
 #
-# (C) Copyright 2020 Hewlett Packard Enterprise Development LP.
+# (C) Copyright 2021 Hewlett Packard Enterprise Development LP.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,4 +34,9 @@ else
   man_page="sat-${1//sat-/}"
 fi
 
-podman run -ti --rm "$sat_image" man "$man_page"
+podman_cli_args="--rm --interactive"
+if [ -t 1 ]; then
+  # stdout is a terminal
+  podman_cli_args="$podman_cli_args --tty"
+fi
+podman run $podman_cli_args $sat_image man "$man_page"
