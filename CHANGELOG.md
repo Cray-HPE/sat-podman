@@ -25,6 +25,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1] - 2021-09-07
+
+### Changed
+- Bumped the default tag for the ``cray/cray-sat`` container image that is
+  specified in the wrapper scripts from 3.9.0-20210804200331_9f1a814
+  to 3.10.0-20210907172136_47bb1ee.
+
 ## [1.5.0] - 2021-08-04
 
 ### Fixed
