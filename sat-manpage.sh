@@ -39,4 +39,4 @@ if [ -t 1 ]; then
   # stdout is a terminal
   podman_cli_args="$podman_cli_args --tty"
 fi
-podman run $podman_cli_args $sat_image man "$man_page"
+podman run -e PAGER=less $podman_cli_args $sat_image man "$man_page"
