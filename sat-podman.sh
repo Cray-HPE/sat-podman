@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Wrapper script for sat CLI
 #
-# (C) Copyright 2021 Hewlett Packard Enterprise Development LP.
+# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -44,9 +44,9 @@ podman_cli_args="--dns $sat_dns_server"
 
 working_dir=$(pwd -P)
 if [ -d "$working_dir" ]; then
-  podman_cli_args="$podman_cli_args --mount type=bind,src=$working_dir,target=$working_dir --workdir $working_dir"
+  podman_cli_args="$podman_cli_args --mount type=bind,src=$working_dir,target=/sat/share --workdir /sat/share"
 fi
-if [ -d "$HOME" ] && [ "$working_dir" != "$HOME" ]; then
+if [ -d "$HOME" ]; then
   podman_cli_args="$podman_cli_args --mount type=bind,src=$HOME,target=$HOME"
 fi
 
