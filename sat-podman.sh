@@ -51,7 +51,7 @@ if [ -d "$HOME" ]; then
 fi
 
 if [ -f $host_os_info_file ]; then
-  podman_cli_args="$podman_cli_args --mount type=bind,src=$host_os_info_file,target=$host_os_info_target_file"
+  podman_cli_args="$podman_cli_args --mount type=bind,src=$host_os_info_file,target=$host_os_info_target_file,ro=true"
 fi
 
 if [ -d $cray_release_dir ]; then
