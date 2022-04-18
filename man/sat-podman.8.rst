@@ -7,7 +7,7 @@ The System Admin Toolkit Container Environment
 ----------------------------------------------
 
 :Author: Hewlett Packard Enterprise Development LP.
-:Copyright: Copyright 2021 Hewlett Packard Enterprise Development LP.
+:Copyright: Copyright 2021-2022 Hewlett Packard Enterprise Development LP.
 :Manual section: 8
 
 SYNOPSIS
@@ -67,19 +67,25 @@ FILES
 
 The 'sat' subcommands run in a container environment. When the container is
 started, it automatically mounts the following host directories in the
-container in the same location:
+container:
 
 $HOME
-        The home directory on the host.
+        The home directory on the host. This is mounted in the same location
+        as the host.
 
 $PWD
-        The current working directory on the host.
+        The current working directory on the host. This is mounted in
+        the container as /sat/share/, and the default working directory
+        of the container is set to /sat/share.
 
 As a result, the files and directories that are located in $HOME and $PWD
-are available to the subcommands that run in the container. Any files that
-are created by the 'sat' subcommands in these directories will persist on
-the host after the container exits. The working directory inside the container
-is set to the current working directory.
+are available to the subcommands that run in the container, and any files
+that are created by the 'sat' subcommands in these directories will persist
+on the host after the container exits. However, files in the current working
+directory must be specified using relative paths to that directory, because
+the current working directory is always mounted on /sat/share. Absolute paths
+should be avoided, and paths that are outside of $HOME or $PWD are never
+accessible to the container environment.
 
 In addition, the following host files and directories are mounted in the container
 for use by the 'sat' subcommands:
