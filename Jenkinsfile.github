@@ -29,7 +29,7 @@ pipeline {
     agent {
         docker {
             label 'metal-gcp-builder'
-            image 'artifactory.algol60.net/csm-docker/stable/sle15sp3_build_environment:latest'
+            image 'artifactory.algol60.net/csm-docker/stable/csm-docker-sle:15.3'
             args '-u root'
         }
     }
@@ -75,6 +75,7 @@ pipeline {
             steps {
                 script {
                     publishCsmRpms(
+                        artifactoryRepo: 'sat-rpms',
                         os: 'sle-15sp3',
                         component: env.NAME,
                         pattern: 'dist/rpmbuild/RPMS/x86_64/*.rpm',
@@ -82,6 +83,7 @@ pipeline {
                         isStable: env.IS_STABLE
                     )
                     publishCsmRpms(
+                        artifactoryRepo: 'sat-rpms',
                         os: 'sle-15sp3',
                         component: env.NAME,
                         pattern: 'dist/rpmbuild/SRPMS/*.rpm',
