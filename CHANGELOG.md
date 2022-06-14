@@ -1,6 +1,6 @@
 # Changelog
 
-(C) Copyright 2020-2021 Hewlett Packard Enterprise Development LP.
+(C) Copyright 2020-2022 Hewlett Packard Enterprise Development LP.
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
@@ -24,6 +24,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.4.12] - 2022-06-14
+
+### Changed
+- Made changes related to open sourcing of sat-podman.
+    - Update Jenkinsfile to use csm-shared-library.
+    - Add Makefile for building RPM package.
+- Bumped the default tag for the ``cray/cray-sat`` container image that is
+  specified in the wrapper scripts from 3.7.5 to 3.7.6.
 
 ## [1.4.11] - 2021-09-29
 
