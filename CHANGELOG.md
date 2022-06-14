@@ -25,6 +25,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - 2022-06-14
+
+### Changed
+- Incremented version to 1.7.0 for changes in SAT version 3.15.
+- Made changes related to open sourcing of sat-podman.
+    - Update Jenkinsfile to use csm-shared-library.
+    - Add Makefile for building RPM package.
+- Bumped the default tag for the ``cray/cray-sat`` container image that is
+  specified in the wrapper scripts from 3.15.4 to 3.15.5.
+
 ## [1.6.11] - 2022-05-03
 
 ### Changed
