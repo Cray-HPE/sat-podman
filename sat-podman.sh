@@ -26,7 +26,16 @@
 
 # Text surrounded by @ is replaced by a sed command in the spec file
 sat_repository=${SAT_REPOSITORY:-@DEFAULT_SAT_REPOSITORY@}
-sat_image_tag=${SAT_TAG:-@DEFAULT_SAT_TAG@}
+
+# Read the SAT version from $SAT_TAG or /etc/sat-version
+default_sat_tag=$(cat "/etc/sat-version")
+sat_image_tag=${SAT_TAG:-$default_sat_tag}
+if [[ -z "$sat_image_tag" ]]; then
+    echo "No SAT image version specified. Hint: set \$SAT_TAG " \
+         "or add version to /etc/sat-version" >&2
+    exit 1
+fi
+
 sat_image=${SAT_IMAGE:-$sat_repository:$sat_image_tag}
 
 nameserver=$(awk '{ if ($1 == "nameserver") { print $2; exit } }' /etc/resolv.conf )

@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,7 +26,14 @@
 
 # Text surrounded by @ is replaced by a sed command in the spec file
 sat_repository=${SAT_REPOSITORY:-@DEFAULT_SAT_REPOSITORY@}
-sat_image_tag=${SAT_TAG:-@DEFAULT_SAT_TAG@}
+# Read the SAT version from $SAT_TAG or /etc/sat-version
+default_sat_tag=$(cat "/etc/sat-version")
+sat_image_tag=${SAT_TAG:-$default_sat_tag}
+if [[ -z "$sat_image_tag" ]]; then
+        echo "No SAT image version specified. Hint: set \$SAT_TAG " \
+                     "or add version to /etc/sat-version" >&2
+            exit 1
+fi
 sat_image=${SAT_IMAGE:-$sat_repository:$sat_image_tag}
 
 # either `sat-man sat` or `sat-man` with no arguments should bring up sat man page
