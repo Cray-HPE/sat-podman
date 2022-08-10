@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,8 +26,15 @@
 
 # Text surrounded by @ is replaced by a sed command in the spec file
 sat_repository=${SAT_REPOSITORY:-@DEFAULT_SAT_REPOSITORY@}
-sat_image_tag=${SAT_TAG:-@DEFAULT_SAT_TAG@}
-sat_image=${SAT_IMAGE:-$sat_repository:$sat_image_tag}
+sat_version_file="/opt/cray/etc/sat/version"
+if [[ -f "$sat_version_file" ]]; then
+    sat_image_name="${SAT_IMAGE_NAME:-@DEFAULT_SAT_IMAGE_NAME@}"
+    sat_image_tag="${SAT_TAG:-$(cat "$sat_version_file")}"
+else
+    sat_image_name="${SAT_IMAGE_NAME:-@CSM_SAT_IMAGE_NAME@}"
+    sat_image_tag="${SAT_TAG:-csm-latest}"
+fi
+sat_image="${SAT_IMAGE:-"${sat_repository}/${sat_image_name}:${sat_image_tag}"}"
 
 # either `sat-man sat` or `sat-man` with no arguments should bring up sat man page
 if [ -z "$1" ] || [ "$1" == 'sat' ]; then

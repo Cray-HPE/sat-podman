@@ -25,6 +25,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2022-08-09
+
+### Changed
+- Changed the wrapper scripts to depend on a file named ``/opt/cray/etc/sat/version``
+  to supply the version of the SAT container image, so that there is no longer
+  a hard-coded default SAT version in the script. When this file does not
+  exist, the following image is used:
+  ``registry.local/artifactory.algol60.net/sat-docker/stable/cray-sat:csm-latest``
+- Changed the ``SAT_REPOSITORY`` environment variable to no longer include
+  part of the image name.
+- Add a ``SAT_IMAGE_NAME`` variable so that the name of the image can
+  be specified.
+
 ## [1.9.1] - 2022-07-05
 
 ### Changed

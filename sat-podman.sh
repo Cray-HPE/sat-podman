@@ -26,8 +26,15 @@
 
 # Text surrounded by @ is replaced by a sed command in the spec file
 sat_repository=${SAT_REPOSITORY:-@DEFAULT_SAT_REPOSITORY@}
-sat_image_tag=${SAT_TAG:-@DEFAULT_SAT_TAG@}
-sat_image=${SAT_IMAGE:-$sat_repository:$sat_image_tag}
+sat_version_file="/opt/cray/etc/sat/version"
+if [[ -f "$sat_version_file" ]]; then
+    sat_image_name="${SAT_IMAGE_NAME:-@DEFAULT_SAT_IMAGE_NAME@}"
+    sat_image_tag="${SAT_TAG:-$(cat "$sat_version_file")}"
+else
+    sat_image_name="${SAT_IMAGE_NAME:-@CSM_SAT_IMAGE_NAME@}"
+    sat_image_tag="${SAT_TAG:-csm-latest}"
+fi
+sat_image="${SAT_IMAGE:-"${sat_repository}/${sat_image_name}:${sat_image_tag}"}"
 
 nameserver=$(awk '{ if ($1 == "nameserver") { print $2; exit } }' /etc/resolv.conf )
 sat_dns_server=${SAT_DNS_SERVER:-$nameserver}
