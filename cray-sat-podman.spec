@@ -48,8 +48,9 @@ sat-podman is a wrapper to run the SAT CLI under podman
 # Replace values in sat and sat-man executables
 for f in sat-podman.sh sat-manpage.sh; do
     # Use registry.local as it will work for both air-gapped and online installs
-    sed -e 's,@DEFAULT_SAT_REPOSITORY@,registry.local/cray/cray-sat,' \
-        -e 's,@DEFAULT_SAT_TAG@,3.17.1-20220705195400_fd46060,' \
+    sed -e 's,@DEFAULT_SAT_REPOSITORY@,registry.local,' \
+        -e 's,@DEFAULT_SAT_IMAGE_NAME@,cray/cray-sat,' \
+        -e 's,@CSM_SAT_IMAGE_NAME@,artifactory.algol60.net/sat-docker/stable/cray-sat,' \
         -i $f
 done
 # Build man pages

@@ -132,6 +132,11 @@ $HOME/.config/sat
         The directory is mounted in the container as /opt/cray/etc/release
         in read-only mode.
 
+/opt/cray/etc/sat/version
+        The file containing the version of the SAT container image to use.
+        When this file does not exist, the following image is used:
+        registry.local/artifactory.algol60.net/sat-docker/stable/cray-sat:csm-latest
+
 /var/log/cray/sat
         The directory containing the SAT log file.
         The directory is created if it does not exist.
