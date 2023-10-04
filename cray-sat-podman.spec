@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2020-2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2020-2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,6 +33,7 @@ Source: %{name}-%{version}.tar.bz2
 Summary: SAT Podman
 Group: System/Management
 BuildRoot: %{_topdir}
+BuildArch: noarch
 Vendor: Hewlett Packard Enterprise Company
 Requires: podman
 Requires: podman-cni-config
