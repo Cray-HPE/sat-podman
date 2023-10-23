@@ -1,6 +1,6 @@
 # Changelog
 
-(C) Copyright 2020-2022 Hewlett Packard Enterprise Development LP
+(C) Copyright 2020-2023 Hewlett Packard Enterprise Development LP
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
@@ -24,6 +24,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [3.0.0] - 2023-10-24
+
+### Changed
+- Changed wrapper script logic to always use the `cray-sat` image path as
+  uploaded by the CSM product. This version of `sat-podman` requires that CSM
+  1.6 or later be installed because that is the version which began setting the
+  `cray-sat` image version in `/opt/cray/etc/sat/version`.
 
 ## [2.1.0] - 2023-10-03
 
