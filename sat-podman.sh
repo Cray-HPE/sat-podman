@@ -97,6 +97,11 @@ else
        "No log file will be present." >&2
 fi
 
+# Find users $HOME/.config/sat directory
+if [[ -n "$SAT_CONFIG_FILE" ]]; then
+  podman_cli_args="$podman_cli_args --env SAT_CONFIG_FILE=$SAT_CONFIG_FILE"
+fi
+
 podman_cli_args="$podman_cli_args --rm --interactive"
 
 # allow running 'sat bash' to open a shell in sat container
