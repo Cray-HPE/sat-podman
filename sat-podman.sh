@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021-2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2023,2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -46,10 +46,18 @@ ceph_config_dir="/etc/ceph"
 cert_src_dir=${SAT_CERT_SRC_DIR:-/etc/pki/trust/anchors}
 cert_target_dir=${SAT_CERT_TARGET_DIR:-/usr/local/share/ca-certificates}
 kube_config_file=${SAT_KUBE_CONFIG_FILE:-/etc/kubernetes/admin.conf}
-sat_config_dir=${SAT_CONFIG_DIR:-$HOME/.config/sat/}
+sat_config_dir="$HOME/.config/sat/"
 sat_log_dir=${SAT_LOG_DIR:-/var/log/cray/sat/}
 
 podman_cli_args="--dns $sat_dns_server"
+
+if [[ -n $SAT_CONFIG_FILE ]]; then
+  sat_config_dir=$(dirname $SAT_CONFIG_FILE)
+  podman_cli_args="$podman_cli_args --env SAT_CONFIG_FILE=$SAT_CONFIG_FILE"
+elif [[ -n $SAT_CONFIG_DIR ]]; then
+  sat_config_dir=$SAT_CONFIG_DIR
+  podman_cli_args="$podman_cli_args --env SAT_CONFIG_FILE="$sat_config_dir/sat.toml""
+fi
 
 working_dir=$(pwd -P)
 if [ -d "$working_dir" ]; then
@@ -84,7 +92,7 @@ else
 fi
 # If configuration directory does not exist and cannot be created, then give a warning.
 if mkdir -p $sat_config_dir; then
-  podman_cli_args="$podman_cli_args --mount type=bind,src=$sat_config_dir,target=$HOME/.config/sat/"
+  podman_cli_args="$podman_cli_args --mount type=bind,src=$sat_config_dir,target=$sat_config_dir"
 else
   echo "WARNING: Unable to create sat configuration directory $sat_config_dir." \
        "No configuration file will be present." >&2
